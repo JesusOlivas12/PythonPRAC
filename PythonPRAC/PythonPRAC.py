@@ -2,44 +2,165 @@
 from rxconfig import config
 
 import reflex as rx
-
-docs_url = "https://reflex.dev/docs/getting-started/introduction"
-filename = f"{config.app_name}/{config.app_name}.py"
-
-
 class State(rx.State):
-    """The app state."""
+    count: int = 0
 
-    pass
+    def increment(self):
+        self.count += 1
 
+    def decrement(self):
+        if self.count > 0:
+            self.count -= 1
 
-def index() -> rx.Component:
-    return rx.fragment(
-        rx.color_mode_button(rx.color_mode_icon(), float="right"),
-        rx.vstack(
-            rx.heading("Welcome to Reflex!", font_size="2em"),
-            rx.box("Get started by editing ", rx.code(filename, font_size="1em")),
-            rx.link(
-                "Check out our docs!",
-                href=docs_url,
-                border="0.1em solid",
-                padding="0.5em",
-                border_radius="0.5em",
-                _hover={
-                    "color": rx.color_mode_cond(
-                        light="rgb(107,99,246)",
-                        dark="rgb(179, 175, 255)",
-                    )
-                },
-            ),
-            spacing="1.5em",
-            font_size="2em",
-            padding_top="10%",
+def box():
+    button1 = State()
+    
+    return rx.hstack(
+        rx.button(
+            "-",
+            color_scheme="red",
+            border_radius="1em",
+            on_click=State.decrement,
+        ),
+        rx.heading(State.count, font_size="2em"),
+        rx.button(
+            "+",
+            color_scheme="green",
+            border_radius="1em",
+            on_click=State.increment,
         ),
     )
 
 
-# Add state and page to the app.
+def tabla():
+    return rx.center(
+    rx.table_container(
+    
+    rx.table(
+        
+        rx.thead(
+            
+            rx.tr(
+                
+                rx.th("###"),
+                rx.th("Producto"),
+                rx.th("Precio"),
+                rx.th("Qty"),
+                rx.th("Total"),
+            )
+        ),
+        rx.tbody(
+            rx.tr(
+                
+                rx.td("1"),
+                rx.td("'''''''''''''''''''''''''''''''''''''''''''''''''''''"),
+                rx.td(30),
+                box(),
+            ),
+            rx.tr(
+                rx.td("1"),
+                rx.td("Taco"),
+                rx.td(31),
+                box(),
+                
+            ),
+            rx.tr(
+                rx.td("1"),
+                rx.td("Taco"),
+                rx.td(32),
+                box(),
+                
+
+                rx.td("00000",color_scheme="green"),
+                
+            ),
+        
+        
+        
+    ),
+        
+        variant="striped",
+        color_scheme="teal",
+        
+),
+
+    )
+    )
+    
+    
+    
+''''''''''
+class State(rx.State):
+    count: int = 0
+
+    def increment(self):
+        self.count += 1
+
+    def decrement(self):
+        if self.count > 0:
+            self.count -= 1
+
+def boton():
+    return rx.center(
+        rx.hstack(
+            
+            rx.heading("Taco de asada"),
+            rx.button(
+            "-",
+            color_scheme="red",
+            border_radius="1em",
+            on_click=State.decrement,
+            
+        ),
+        
+        rx.heading(State.count, font_size="2em"),
+        rx.button(
+            "+",
+            color_scheme="green",
+            border_radius="1em",
+            on_click=State.increment,
+        ),
+        rx.text('70mil usd'),
+    ),
+)
+'''
+
+    
+    
+
+
+
+
+def index():
+    #return boton()
+    return tabla()
+    
+
+    
+
+
+
+
+
+'''''
+def index():
+    return rx.hstack(
+        rx.button(
+            "-",
+            color_scheme="red",
+            border_radius="1em",
+            on_click=State.decrement,
+        ),
+        rx.heading(State.count, font_size="2em"),
+        rx.button(
+            "+",
+            color_scheme="green",
+            border_radius="1em",
+            on_click=State.increment,
+        ),
+    )
+'''
+
 app = rx.App()
-app.add_page(index)
+app.add_page(index, title="Counter")
 app.compile()
